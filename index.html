@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>shhh... this is secret Message</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            padding: 50px; 
+            background-color: #121212; 
+            color: #e0e0e0; 
+        }
+
+        .vault-container { 
+            background: #1e1e1e; 
+            padding: 40px; 
+            border-radius: 15px; 
+            display: inline-block; 
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.5); 
+            border: 1px solid #333; 
+            width: 400px;
+        }
+
+        h2 { color: #d4af37; margin-bottom: 5px; }
+        h3 { color: #d4af37; margin-top: 20px; }
+        
+        #secretContent { 
+            display: none; 
+            margin-top: 30px; 
+            text-align: left; 
+            border-top: 2px solid #333; 
+            padding-top: 20px; 
+            animation: fadeIn 0.8s ease-out; 
+        }
+
+        .hint { color: #888; font-size: 13px; display: block; margin-top: 8px; font-style: italic; }
+
+        input { 
+            padding: 12px; 
+            width: 80%; 
+            background-color: #2c2c2c; 
+            color: white; 
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            outline: none; 
+            text-align: center;
+        }
+        input:focus { border-color: #d4af37; }
+
+        .btn-unlock { padding: 12px 25px; background-color: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 15px; width: 85%; transition: 0.3s; }
+        .btn-unlock:hover { background-color: #218838; transform: scale(1.02); }
+        
+        .btn-lock { padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 20px; width: 100%; opacity: 0.7; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="vault-container">
+        <h2> guess who...? </h2>
+        <p>surprice awiting for you</p>
+        
+        <input type="password" id="passInput" placeholder="Enter Passcode">
+        <span class="hint">Hint: my birthday YYMMDD</span>
+        
+        <button class="btn-unlock" onclick="checkPassword()">Unlock Vault</button>
+
+        <div id="secretContent">
+            <h3>💌 Letter:</h3>
+            <p>Hi Thrish!<br><br>
+               Happy Birthday! I made this little digital vault just for you. Hope this year brings you everything you want! 🎂✨</p>
+
+            <h3>🎬 Video Message:</h3>
+            <video id="myVideo" controls style="width: 100%; border-radius: 10px; border: 1px solid #444; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                <source src="videos\birthday.MP4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <button class="btn-lock" onclick="lockVault()">🔒 Lock Vault & Clear</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Listen for the Enter Key
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+
+        // 2. Password Check Logic
+        function checkPassword() {
+            var password = document.getElementById("passInput").value;
+            
+            if (password === "030103") { 
+                document.getElementById("secretContent").style.display = "block";
+                
+                // Trigger Confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#d4af37', '#ffffff', '#28a745']
+                });
+            } else {
+                alert("Access Denied: Incorrect Passcode");
+            }
+        }
+
+        // 3. Lock/Reset Logic
+        function lockVault() {
+            document.getElementById("secretContent").style.display = "none";
+            document.getElementById("passInput").value = "";
+            var video = document.getElementById("myVideo");
+            video.pause();
+            video.currentTime = 0;
+        }
+    </script>
+</body>
+</html>
